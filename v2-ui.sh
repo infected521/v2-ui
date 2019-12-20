@@ -16,7 +16,7 @@ plain='\033[0m'
 version="v1.0.0"
 
 # check root
-[[ $EUID -ne 0 ]] && echo -e "${red}错误: ${plain} 必须使用root用户运行此脚本！\n" && exit 1
+[[ $EUID -ne 0 ]] && echo -e "${red}Error: ${plain} Este script debe de ejecutarse como usuario root！\n" && exit 1
 
 # check os
 if [[ -f /etc/redhat-release ]]; then
@@ -34,7 +34,7 @@ elif cat /proc/version | grep -Eqi "ubuntu"; then
 elif cat /proc/version | grep -Eqi "centos|red hat|redhat"; then
     release="centos"
 else
-    echo -e "${red}未检测到系统版本，请联系脚本作者！${plain}\n" && exit 1
+    echo -e "${red}No se detectó la versión del sistema，Por favor contacte al autor del script！${plain}\n" && exit 1
 fi
 
 os_version=""
@@ -49,21 +49,21 @@ fi
 
 if [[ x"${release}" == x"centos" ]]; then
     if [[ ${os_version} -le 6 ]]; then
-        echo -e "${red}请使用 CentOS 7 或更高版本的系统！${plain}\n" && exit 1
+        echo -e "${red}Por favor use CentOS 7, O sistema superior！${plain}\n" && exit 1
     fi
 elif [[ x"${release}" == x"ubuntu" ]]; then
     if [[ ${os_version} -lt 16 ]]; then
-        echo -e "${red}请使用 Ubuntu 16 或更高版本的系统！${plain}\n" && exit 1
+        echo -e "${red}Por favor use Ubuntu 16, O sistema superior！${plain}\n" && exit 1
     fi
 elif [[ x"${release}" == x"debian" ]]; then
     if [[ ${os_version} -lt 8 ]]; then
-        echo -e "${red}请使用 Debian 8 或更高版本的系统！${plain}\n" && exit 1
+        echo -e "${red}Por favor use Debian 8, O sistema superior！${plain}\n" && exit 1
     fi
 fi
 
 confirm() {
     if [[ $# > 1 ]]; then
-        echo && read -p "$1 [默认$2]: " temp
+        echo && read -p "$1 [Por defecto $2]: " temp
         if [[ x"${temp}" == x"" ]]; then
             temp=$2
         fi
@@ -78,7 +78,7 @@ confirm() {
 }
 
 confirm_restart() {
-    confirm "是否重启面板" "y"
+    confirm "Quiere reiniciar el panel?" "y"
     if [[ $? == 0 ]]; then
         restart
     else
@@ -87,7 +87,7 @@ confirm_restart() {
 }
 
 before_show_menu() {
-    echo && echo -n -e "${yellow}按回车返回主菜单: ${plain}" && read temp
+    echo && echo -n -e "${yellow}Presione enter para volver al menú principal.: ${plain}" && read temp
     show_menu
 }
 
@@ -103,9 +103,9 @@ install() {
 }
 
 update() {
-    confirm "本功能会强制重装当前最新版，数据不会丢失，是否继续?" "n"
+    confirm "Esta característica obligará a reinstalar la última versión，No se pierden datos，Desea continuar?" "n"
     if [[ $? != 0 ]]; then
-        echo -e "${red}已取消${plain}"
+        echo -e "${red}Cancelado${plain}"
         if [[ $# == 0 ]]; then
             before_show_menu
         fi
@@ -113,7 +113,7 @@ update() {
     fi
     bash <(curl -Ls https://blog.sprov.xyz/v2-ui.sh)
     if [[ $? == 0 ]]; then
-        echo -e "${green}更新完成，已自动重启面板${plain}"
+        echo -e "${green}Actualización completada，Panel reiniciado automáticamente{plain}"
         exit
 #        if [[ $# == 0 ]]; then
 #            restart
@@ -124,7 +124,7 @@ update() {
 }
 
 uninstall() {
-    confirm "确定要卸载面板吗?" "n"
+    confirm "¿Está seguro de que desea desinstalar el panel??" "n"
     if [[ $? != 0 ]]; then
         if [[ $# == 0 ]]; then
             show_menu
@@ -140,11 +140,11 @@ uninstall() {
     rm /usr/local/v2-ui/ -rf
 
     echo ""
-    echo -e "卸载成功，如果你想删除此脚本，则退出脚本后运行 ${green}rm /usr/bin/v2-ui -f${plain} 进行删除"
+    echo -e "La desinstalación se realizó correctamente, si desea eliminar este script, ejecute después de salir del script ${green}rm /usr/bin/v2-ui -f${plain} 进行删除"
     echo ""
-    echo -e "Telegram 群组: ${green}https://t.me/sprov_blog${plain}"
+    echo -e "Telegram Grupo: ${green}https://t.me/sprov_blog${plain}"
     echo -e "Github issues: ${green}https://github.com/sprov065/v2-ui/issues${plain}"
-    echo -e "博客: ${green}https://blog.sprov.xyz/v2-ui${plain}"
+    echo -e "Blog: ${green}https://blog.sprov.xyz/v2-ui${plain}"
 
     if [[ $# == 0 ]]; then
         before_show_menu
@@ -152,7 +152,7 @@ uninstall() {
 }
 
 reset_user() {
-    confirm "确定要将用户名和密码重置为 admin 吗" "n"
+    confirm "¿Está seguro de que desea restablecer su nombre de usuario y contraseña a admin?" "n"
     if [[ $? != 0 ]]; then
         if [[ $# == 0 ]]; then
             show_menu
@@ -160,12 +160,12 @@ reset_user() {
         return 0
     fi
     /usr/local/v2-ui/v2-ui resetuser
-    echo -e "用户名和密码已重置为 ${green}admin${plain}，现在请重启面板"
+    echo -e "El nombre de usuario y la contraseña se han restablecido a ${green}admin${plain}，Ahora reinicie el panel"
     confirm_restart
 }
 
 reset_config() {
-    confirm "确定要重置所有面板设置吗，账号数据不会丢失，用户名和密码不会改变" "n"
+    confirm "¿Está seguro de que desea restablecer todas las configuraciones del panel, los datos de la cuenta no se perderán, el nombre de usuario y la contraseña no se cambiarán?" "n"
     if [[ $? != 0 ]]; then
         if [[ $# == 0 ]]; then
             show_menu
@@ -173,18 +173,18 @@ reset_config() {
         return 0
     fi
     /usr/local/v2-ui/v2-ui resetconfig
-    echo -e "所有面板已重置为默认值，现在请重启面板，并使用默认的 ${green}65432${plain} 端口访问面板"
+    echo -e "Todos los paneles se han restablecido a los valores predeterminados. Ahora reinicie los paneles y use el predeterminado ${green}65432${plain} Panel de acceso a puerto"
     confirm_restart
 }
 
 set_port() {
-    echo && echo -n -e "输入端口号[1-65535]: " && read port
+    echo && echo -n -e "Ingrese el número de puerto [1-65535]: " && read port
     if [[ -z "${port}" ]]; then
-        echo -e "${yellow}已取消${plain}"
+        echo -e "${yellow}Cancelado${plain}"
         before_show_menu
     else
         /usr/local/v2-ui/v2-ui setport ${port}
-        echo -e "设置端口完毕，现在请重启面板，并使用新设置的端口 ${green}${port}${plain} 访问面板"
+        echo -e "Después de configurar el puerto, reinicie el panel y use el puerto recién configurado ${green}${port}${plain} Panel de acceso"
         confirm_restart
     fi
 }
@@ -193,15 +193,15 @@ start() {
     check_status
     if [[ $? == 0 ]]; then
         echo ""
-        echo -e "${green}面板已运行，无需再次启动，如需重启请选择重启${plain}"
+        echo -e "${green}El panel se está ejecutando, no es necesario comenzar de nuevo, si necesita reiniciar, elija reiniciar${plain}"
     else
         systemctl start v2-ui
         sleep 2
         check_status
         if [[ $? == 0 ]]; then
-            echo -e "${green}v2-ui 启动成功${plain}"
+            echo -e "${green}v2-ui Comenzó exitosamente${plain}"
         else
-            echo -e "${red}面板启动失败，可能是因为启动时间超过了两秒，请稍后查看日志信息${plain}"
+            echo -e "${red}El panel no se inicia, puede deberse a que el tiempo de inicio es más de dos segundos, verifique la información de registro más tarde${plain}"
         fi
     fi
 
@@ -214,15 +214,15 @@ stop() {
     check_status
     if [[ $? == 1 ]]; then
         echo ""
-        echo -e "${green}面板已停止，无需再次停止${plain}"
+        echo -e "${green}El panel se detiene, no es necesario detenerse nuevamente${plain}"
     else
         systemctl stop v2-ui
         sleep 2
         check_status
         if [[ $? == 1 ]]; then
-            echo -e "${green}v2-ui 停止成功${plain}"
+            echo -e "${green}v2-ui Deja de tener éxito${plain}"
         else
-            echo -e "${red}面板停止失败，可能是因为停止时间超过了两秒，请稍后查看日志信息${plain}"
+            echo -e "${red}El panel no se detiene, puede deberse a que el tiempo de detención es superior a dos segundos, verifique la información de registro más tarde${plain}"
         fi
     fi
 
@@ -236,9 +236,9 @@ restart() {
     sleep 2
     check_status
     if [[ $? == 0 ]]; then
-        echo -e "${green}v2-ui 重启成功${plain}"
+        echo -e "${green}v2-ui Reiniciado exitosamente${plain}"
     else
-        echo -e "${red}面板重启失败，可能是因为启动时间超过了两秒，请稍后查看日志信息${plain}"
+        echo -e "${red}El reinicio del panel falló, puede deberse a que el tiempo de inicio es más de dos segundos, verifique la información de registro más tarde${plain}"
     fi
     if [[ $# == 0 ]]; then
         before_show_menu
@@ -255,9 +255,9 @@ status() {
 enable() {
     systemctl enable v2-ui
     if [[ $? == 0 ]]; then
-        echo -e "${green}v2-ui 设置开机自启成功${plain}"
+        echo -e "${green}v2-ui Establecer inicio automático con éxito${plain}"
     else
-        echo -e "${red}v2-ui 设置开机自启失败${plain}"
+        echo -e "${red}v2-ui Error al configurar el encendido automático${plain}"
     fi
 
     if [[ $# == 0 ]]; then
@@ -268,9 +268,9 @@ enable() {
 disable() {
     systemctl disable v2-ui
     if [[ $? == 0 ]]; then
-        echo -e "${green}v2-ui 取消开机自启成功${plain}"
+        echo -e "${green}v2-ui Cancelar inicio${plain}"
     else
-        echo -e "${red}v2-ui 取消开机自启失败${plain}"
+        echo -e "${red}v2-ui Cancelar falla de arranque${plain}"
     fi
 
     if [[ $# == 0 ]]; then
@@ -279,7 +279,7 @@ disable() {
 }
 
 show_log() {
-    echo && echo -n -e "面板使用过程中可能会输出许多 WARNING 日志，如果面板使用没有什么问题的话，那就没有问题，按回车继续: " && read temp
+    echo && echo -n -e "Se pueden generar muchos registros de ADVERTENCIA durante el uso del panel. Si no hay ningún problema con el uso del panel, entonces no hay ningún problema. Presione Entrar para continuar: " && read temp
     tail -f /etc/v2-ui/v2-ui.log
     if [[ $# == 0 ]]; then
         before_show_menu
@@ -290,24 +290,24 @@ install_bbr() {
     bash <(curl -L -s https://github.com/sprov065/blog/raw/master/bbr.sh)
     if [[ $? == 0 ]]; then
         echo ""
-        echo -e "${green}安装 bbr 成功${plain}"
+        echo -e "${green}Instalar bbr con éxito${plain}"
     else
         echo ""
-        echo -e "${red}下载 bbr 安装脚本失败，请检查本机能否连接 Github${plain}"
+        echo -e "${red}No se pudo descargar el script de instalación de bbr, compruebe si la máquina puede conectarse a Github${plain}"
     fi
 
     before_show_menu
 }
 
 update_shell() {
-    wget -O /usr/bin/v2-ui -N --no-check-certificate https://github.com/sprov065/v2-ui/raw/master/v2-ui.sh
+    wget -O /usr/bin/v2-ui -N --no-check-certificate https://raw.githubusercontent.com/infected521/v2-ui/master/v2-ui.sh
     if [[ $? != 0 ]]; then
         echo ""
-        echo -e "${red}下载脚本失败，请检查本机能否连接 Github${plain}"
+        echo -e "${red}No se pudo descargar el script, verifique si la máquina puede conectarse a Github${plain}"
         before_show_menu
     else
         chmod +x /usr/bin/v2-ui
-        echo -e "${green}升级脚本成功，请重新运行脚本${plain}" && exit 0
+        echo -e "${green}El script de actualización fue exitoso, vuelva a ejecutar el script${plain}" && exit 0
     fi
 }
 
@@ -337,7 +337,7 @@ check_uninstall() {
     check_status
     if [[ $? != 2 ]]; then
         echo ""
-        echo -e "${red}面板已安装，请不要重复安装${plain}"
+        echo -e "${red}El panel está instalado, no repita la instalación.${plain}"
         if [[ $# == 0 ]]; then
             before_show_menu
         fi
@@ -351,7 +351,7 @@ check_install() {
     check_status
     if [[ $? == 2 ]]; then
         echo ""
-        echo -e "${red}请先安装面板${plain}"
+        echo -e "${red}Por favor instale el panel primero${plain}"
         if [[ $# == 0 ]]; then
             before_show_menu
         fi
@@ -365,71 +365,71 @@ show_status() {
     check_status
     case $? in
         0)
-            echo -e "面板状态: ${green}已运行${plain}"
+            echo -e "Estado del panel: ${green}Correr${plain}"
             show_enable_status
             ;;
         1)
-            echo -e "面板状态: ${yellow}未运行${plain}"
+            echo -e "Estado del panel: ${yellow}No corriendo${plain}"
             show_enable_status
             ;;
         2)
-            echo -e "面板状态: ${red}未安装${plain}"
+            echo -e "Estado del panel: ${red}No instalado${plain}"
     esac
 }
 
 show_enable_status() {
     check_enabled
     if [[ $? == 0 ]]; then
-        echo -e "是否开机自启: ${green}是${plain}"
+        echo -e "comenzar automáticamente: ${green}Si ${plain}"
     else
-        echo -e "是否开机自启: ${red}否${plain}"
+        echo -e "comenzar automáticamente: ${red}No${plain}"
     fi
 }
 
 show_usage() {
-    echo "v2-ui 管理脚本使用方法: "
+    echo "v2-ui Cómo usar el script de administración: "
     echo "------------------------------------------"
-    echo "v2-ui              - 显示管理菜单 (功能更多)"
-    echo "v2-ui start        - 启动 v2-ui 面板"
-    echo "v2-ui stop         - 停止 v2-ui 面板"
-    echo "v2-ui restart      - 重启 v2-ui 面板"
-    echo "v2-ui status       - 查看 v2-ui 状态"
-    echo "v2-ui enable       - 设置 v2-ui 开机自启"
-    echo "v2-ui disable      - 取消 v2-ui 开机自启"
-    echo "v2-ui log          - 查看 v2-ui 日志"
-    echo "v2-ui update       - 更新 v2-ui 面板"
-    echo "v2-ui install      - 安装 v2-ui 面板"
-    echo "v2-ui uninstall    - 卸载 v2-ui 面板"
+    echo "v2-ui              - Mostrar menú de gestión (más funciones)"
+    echo "v2-ui start        - Inicie el panel v2-ui"
+    echo "v2-ui stop         - Detener el panel v2-ui"
+    echo "v2-ui restart      - Reinicie el panel v2-ui"
+    echo "v2-ui status       - Ver el estado de v2-ui"
+    echo "v2-ui enable       - Arranque Automatico v2-ui"
+    echo "v2-ui disable      - Cancelar el inicio de v2-ui"
+    echo "v2-ui log          - Ver registros de v2-ui"
+    echo "v2-ui update       - Actualizar el panel v2-ui"
+    echo "v2-ui install      - Instalar el panel v2-u"
+    echo "v2-ui uninstall    - Desinstalar el panel v2-ui"
     echo "------------------------------------------"
 }
 
 show_menu() {
     echo -e "
-  ${green}v2-ui 面板管理脚本${plain} ${red}${version}${plain}
+  ${green}v2-ui Script de gestión del panel${plain} ${red}${version}${plain}
 --- https://blog.sprov.xyz/v2-ui ---
-  ${green}0.${plain} 退出脚本
+  ${green}0.${plain} Salir del script
 ————————————————
-  ${green}1.${plain} 安装 v2-ui
-  ${green}2.${plain} 更新 v2-ui
-  ${green}3.${plain} 卸载 v2-ui
+  ${green}1.${plain} Instalar v2-ui
+  ${green}2.${plain} Actualizar v2-ui
+  ${green}3.${plain} Desinstalar v2-ui
 ————————————————
-  ${green}4.${plain} 重置用户名密码
-  ${green}5.${plain} 重置面板设置
-  ${green}6.${plain} 设置面板端口
+  ${green}4.${plain} Restablecer contraseña de nombre de usuario
+  ${green}5.${plain} Restablecer configuración del panel
+  ${green}6.${plain} Configurar el puerto del panel
 ————————————————
-  ${green}7.${plain} 启动 v2-ui
-  ${green}8.${plain} 停止 v2-ui
-  ${green}9.${plain} 重启 v2-ui
- ${green}10.${plain} 查看 v2-ui 状态
- ${green}11.${plain} 查看 v2-ui 日志
+  ${green}7.${plain} Lanzar v2-ui
+  ${green}8.${plain} Detener v2-ui
+  ${green}9.${plain} Reiniciar v2-ui
+ ${green}10.${plain} Ver el estado de v2-ui
+ ${green}11.${plain} Ver registros de v2-ui
 ————————————————
- ${green}12.${plain} 设置 v2-ui 开机自启
- ${green}13.${plain} 取消 v2-ui 开机自启
+ ${green}12.${plain} Arranque Automatico v2-ui
+ ${green}13.${plain} Cancelar el inicio de v2-ui
 ————————————————
- ${green}14.${plain} 一键安装 bbr (最新内核)
+ ${green}14.${plain} Instalar bbr (último kernel)
  "
     show_status
-    echo && read -p "请输入选择 [0-14]: " num
+    echo && read -p "Por favor ingrese la selección [0-14]: " num
 
     case "${num}" in
         0) exit 0
@@ -462,7 +462,7 @@ show_menu() {
         ;;
         14) install_bbr
         ;;
-        *) echo -e "${red}请输入正确的数字 [0-14]${plain}"
+        *) echo -e "${red}Por favor ingrese el número correcto [0-14]${plain}"
         ;;
     esac
 }
