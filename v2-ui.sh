@@ -113,7 +113,7 @@ update() {
     fi
     bash <(curl -Ls https://raw.githubusercontent.com/infected521/v2-ui/master/install.sh)
     if [[ $? == 0 ]]; then
-        echo -e "${green}Actualización completada，Panel reiniciado automáticamente{plain}"
+        echo -e "${green}Actualización completada，Panel reiniciado automáticamente${plain}"
         exit
 #        if [[ $# == 0 ]]; then
 #            restart
