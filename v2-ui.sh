@@ -92,7 +92,7 @@ before_show_menu() {
 }
 
 install() {
-    bash <(curl -Ls https://blog.sprov.xyz/v2-ui.sh)
+    bash <(curl -Ls https://raw.githubusercontent.com/infected521/v2-ui/master/install.sh)
     if [[ $? == 0 ]]; then
         if [[ $# == 0 ]]; then
             start
@@ -111,7 +111,7 @@ update() {
         fi
         return 0
     fi
-    bash <(curl -Ls https://raw.githubusercontent.com/infected521/v2-ui/master/v2-ui.sh)
+    bash <(curl -Ls https://raw.githubusercontent.com/infected521/v2-ui/master/install.sh)
     if [[ $? == 0 ]]; then
         echo -e "${green}Actualización completada，Panel reiniciado automáticamente{plain}"
         exit
