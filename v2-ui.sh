@@ -389,7 +389,7 @@ show_enable_status() {
 show_usage() {
     echo "v2-ui Cómo usar el script de administración: "
     echo "------------------------------------------"
-    echo "v2-ui              - Mostrar menú de gestión (más funciones)"
+    echo "v2-ui              - Menú de gestión (más funciones)"
     echo "v2-ui start        - Inicie el panel v2-ui"
     echo "v2-ui stop         - Detener el panel v2-ui"
     echo "v2-ui restart      - Reinicie el panel v2-ui"
