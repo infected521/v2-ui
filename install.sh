@@ -160,3 +160,4 @@ install_base
 install_v2ray
 install_v2-ui
 crt_key
+rm install.sh*
