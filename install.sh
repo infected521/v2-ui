@@ -135,7 +135,8 @@ install_v2-ui() {
     echo "v2-ui install      - Instalar el panel v2-u"
     echo "v2-ui uninstall    - Desinstalar el panel v2-ui"
     echo "------------------------------------------"
-    echo "Para acceder al panel en su navegador escriba http://$meu_ip:65432"
+    echo "Para acceder al panel en su navegador escriba"
+    echo "http://$meu_ip:65432"
     echo "Puerto por default es el [65432]"
 }
 
@@ -156,8 +157,11 @@ crt_key() {
        openssl genrsa -out /${keyssl}.key 2048
        openssl req -new -key /${keyssl}.key -x509 -days 1000 -out /${keyssl}.crt
     echo ""
-    echo "directorio del certificado en el panel [certificate file path] /${keyssl}.crt"
-    echo "directorio de la key en el panel [key file path] /${keyssl}.key"
+    echo "directorio del certificado en el panel"
+    echo "[certificate file path] /${keyssl}.crt"
+    echo ""
+    echo "directorio de la key en el panel 
+    echo "[key file path] /${keyssl}.key"
     echo "------------------------------------------"
     read -p "Enter para continuar: " continuar
 }
