@@ -157,7 +157,7 @@ crt_key() {
     if [[ ! -e /*.key ]]; then
        read -p "Nombre del certificado (ejemplo:rock): " keyssl
        openssl genrsa -out /${keyssl}.key 2048
-       openssl req -new -key /${keyssl}.key -x509 -days 1000 -out /${keyssl}.crt
+       (echo MX; echo MX; echo MX; echo speed; echo v2ray; echo XD; echo @lacasitadelterror)|openssl req -new -key /${keyssl}.key -x509 -days 1000 -out /${keyssl}.crt
     echo ""
     echo "directorio del certificado en el panel"
     echo "[certificate file path] /${keyssl}.crt"
@@ -174,4 +174,3 @@ install_base
 install_v2ray
 crt_key
 install_v2-ui
-rm install.sh
