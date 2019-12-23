@@ -160,7 +160,7 @@ crt_key() {
     echo "directorio del certificado en el panel"
     echo "[certificate file path] /${keyssl}.crt"
     echo ""
-    echo "directorio de la key en el panel 
+    echo "directorio de la key en el panel"
     echo "[key file path] /${keyssl}.key"
     echo "------------------------------------------"
     read -p "Enter para continuar: " continuar
