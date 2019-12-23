@@ -135,10 +135,10 @@ install_v2-ui() {
     echo "v2-ui install      - Instalar el panel v2-u"
     echo "v2-ui uninstall    - Desinstalar el panel v2-ui"
     echo "------------------------------------------"
+    read -p "Escribe el dominio registrado a esta vps: " domain
+    echo ""
     echo "Para acceder al panel en su navegador escriba"
-    read -p "Escribe el dominio que está registrado a esta vps: " domain
-    echo "http://$domain:65432"
-    echo "Puerto por default es el [65432]"
+    echo "       http://$domain:65432"
 }
 
 meu_ip="$(wget -qO- ipv4.icanhazip.com)"
@@ -154,7 +154,7 @@ crt_key() {
     else
         apt install stunnel4 -y
     fi
-       [[ ! -e /*.key ]] && read -p "Escribe el nombre del certificado (ejemplo:rock): " keyssl
+       [[ ! -e /{*.key} ]] && read -p "Nombre del certificado (ejemplo:rock): " keyssl
        openssl genrsa -out /${keyssl}.key 2048
        openssl req -new -key /${keyssl}.key -x509 -days 1000 -out /${keyssl}.crt
     echo ""
