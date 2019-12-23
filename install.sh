@@ -141,7 +141,7 @@ install_v2-ui() {
     echo "http://$domain:65432 "
 }
 
-meu_ip="$(wget -qO- ipv4.icanhazip.com)"
+# meu_ip="$(wget -qO- ipv4.icanhazip.com)"
 
 crt_key() {
     echo ""
