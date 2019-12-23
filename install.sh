@@ -138,7 +138,7 @@ install_v2-ui() {
     read -p "Escribe el dominio registrado a esta vps: " domain
     echo ""
     echo "Para acceder al panel en su navegador escriba"
-    echo "http://$domain:65432"
+    echo "http://$domain:65432 "
 }
 
 meu_ip="$(wget -qO- ipv4.icanhazip.com)"
