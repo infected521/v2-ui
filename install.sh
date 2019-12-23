@@ -139,7 +139,7 @@ install_v2-ui() {
     echo "Puerto por default es el [65432]"
 }
 
-meu_ip="wget -qO- ipv4.icanhazip.com"
+meu_ip="$(wget -qO- ipv4.icanhazip.com)"
 
 crt_key() {
     echo ""
