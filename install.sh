@@ -154,7 +154,8 @@ crt_key() {
     else
         apt install stunnel4 -y
     fi
-       [[ ! -e /{*.key} ]] && read -p "Nombre del certificado (ejemplo:rock): " keyssl
+    if [[ ! -e /*.key ]]; then
+       read -p "Nombre del certificado (ejemplo:rock): " keyssl
        openssl genrsa -out /${keyssl}.key 2048
        openssl req -new -key /${keyssl}.key -x509 -days 1000 -out /${keyssl}.crt
     echo ""
@@ -165,6 +166,7 @@ crt_key() {
     echo "[key file path] /${keyssl}.key"
     echo "------------------------------------------"
     read -p "Enter para continuar: " continuar
+fi
 }
 
 echo -e "${green}Comience la instalación${plain}"
