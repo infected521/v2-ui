@@ -139,7 +139,8 @@ install_v2-ui() {
     echo "Recuerda que el puerto por default es el [65432]"
 }
 
-meu_ip () {
+meu_ip() {
+#!/bin/bash
 if [[ -e /etc/MEUIPADM ]]; then
 echo "$(cat /etc/MEUIPADM)"
 else
@@ -168,6 +169,7 @@ crt_key() {
     echo "${red}agregar el directorio del certificado en el panel\n${yellow}[certificate file path]${red} /${keyssl}.crt\n"
     echo "${red}agregar el directorio de la key en el panel\n${yellow}[key file path]${red} /${keyssl}.key\n"
     echo "------------------------------------------"
+    read -p "Enter para continuar: " continuar
 }
 
 echo -e "${green}Comience la instalación${plain}"
