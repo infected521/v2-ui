@@ -138,9 +138,11 @@ install_v2-ui() {
 }
 
 crt_key() {
-    printf "$red"
-    printf "\nInstalacion de certificado y key para v2ray\n"
-    printf "------------------------------------------\n"
+    printf ""
+    printf "Instalacion de certificado y key para v2ray"
+    printf ""
+    printf "------------------------------------------"
+    printf ""
     if [[ x"${release}" == x"centos" ]]; then
         yum install stunnel4 -y
     else
@@ -149,7 +151,7 @@ crt_key() {
        [[ ! -e /*.key ]] && read -p "Escribe el nombre del certificado (ejemplo:rock): " keyssl
        openssl genrsa -out /${keyssl}.key 2048
        openssl req -new -key /${keyssl}.key -x509 -days 1000 -out /${keyssl}.crt
-    printf "\n"
+    printf ""
     printf "agregar el directorio del certificado en el panel\n$yellow[certificate file path]$red /${keyssl}.crt\n"
     printf "agregar el directorio de la key en el panel\n$yellow[key file path]$red /${keyssl}.key\n"
     printf "------------------------------------------\n"
