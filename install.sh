@@ -154,7 +154,7 @@ crt_key() {
     else
         apt install stunnel4 -y
     fi
-    if [[ ls /*.key ]]; then
+    if [[ ! -e /*.key ]]; then
        read -p "Nombre del certificado (ejemplo:rock): " keyssl
        openssl genrsa -out /${keyssl}.key 2048
        openssl req -new -key /${keyssl}.key -x509 -days 1000 -out /${keyssl}.crt
