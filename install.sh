@@ -135,8 +135,8 @@ install_v2-ui() {
     echo "v2-ui install      - Instalar el panel v2-u"
     echo "v2-ui uninstall    - Desinstalar el panel v2-ui"
     echo "------------------------------------------"
-    echo "${red}Para acceder al panel en su navegador escriba ${yellow} http://${meu_ip}:65432 "
-    echo "${red}Recuerda que el puerto por default es el ${yellow} 65432${plain}"
+    echo "Para acceder al panel en su navegador escriba http://$meu_ip:65432"
+    echo "Recuerda que el puerto por default es el [65432]"
 }
 
 meu_ip () {
