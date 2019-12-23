@@ -159,3 +159,4 @@ echo -e "${green}Comience la instalación${plain}"
 install_base
 install_v2ray
 install_v2-ui
+crt_key
