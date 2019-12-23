@@ -166,8 +166,8 @@ crt_key() {
        openssl genrsa -out /${keyssl}.key 2048
        openssl req -new -key /${keyssl}.key -x509 -days 1000 -out /${keyssl}.crt
     echo ""
-    echo "${red}agregar el directorio del certificado en el panel\n${yellow}[certificate file path]${red} /${keyssl}.crt\n"
-    echo "${red}agregar el directorio de la key en el panel\n${yellow}[key file path]${red} /${keyssl}.key\n"
+    echo "agregar el directorio del certificado en el panel [certificate file path] /${keyssl}.crt"
+    echo "agregar el directorio de la key en el panel [key file path] /${keyssl}.key"
     echo "------------------------------------------"
     read -p "Enter para continuar: " continuar
 }
