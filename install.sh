@@ -135,6 +135,19 @@ install_v2-ui() {
     echo "v2-ui install      - Instalar el panel v2-u"
     echo "v2-ui uninstall    - Desinstalar el panel v2-ui"
     echo "------------------------------------------"
+    echo "${red}Para acceder al panel en su navegador escriba ${yellow} http://${meu_ip}:65432 "
+    echo "${red}Recuerda que el puerto por default es el ${yellow} 65432${plain}"
+}
+
+meu_ip () {
+if [[ -e /etc/MEUIPADM ]]; then
+echo "$(cat /etc/MEUIPADM)"
+else
+MEU_IP=$(ip addr | grep 'inet' | grep -v inet6 | grep -vE '127\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | grep -o -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1)
+MEU_IP2=$(wget -qO- ipv4.icanhazip.com)
+[[ "$MEU_IP" != "$MEU_IP2" ]] && echo "$MEU_IP2" || echo "$MEU_IP"
+echo "$MEU_IP2" > /etc/MEUIPADM
+fi
 }
 
 crt_key() {
