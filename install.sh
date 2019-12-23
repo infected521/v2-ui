@@ -136,7 +136,8 @@ install_v2-ui() {
     echo "v2-ui uninstall    - Desinstalar el panel v2-ui"
     echo "------------------------------------------"
     echo "Para acceder al panel en su navegador escriba"
-    echo "http://$meu_ip:65432"
+    read -p "Escribe el dominio que está registrado a esta vps: " domain
+    echo "http://$domain:65432"
     echo "Puerto por default es el [65432]"
 }
 
